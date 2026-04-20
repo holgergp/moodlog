@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02 data-layer plan
-last_updated: "2026-04-20T11:22:58.291Z"
+stopped_at: Completed 01-03 state + widgets plan
+last_updated: "2026-04-20T12:09:43.217Z"
 last_activity: 2026-04-20
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 5
-  completed_plans: 2
-  percent: 40
+  completed_plans: 3
+  percent: 60
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-20)
 ## Current Position
 
 Phase: 01 (foundation) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-04-20
 
-Progress: [████░░░░░░] 40%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [████░░░░░░] 40%
 *Updated after each plan completion*
 | Phase 01 P01 | 72min | 3 tasks | 65 files |
 | Phase 01 P02 | 5min | 2 tasks | 7 files |
+| Phase 01 P03 | 29min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Recent decisions affecting current work:
 - Phase 01 Plan 02: Dexie compound-PK typed as Table<EntryTag, [string, string]> (not EntityTable<_, never>) to satisfy svelte-check on bulkDelete + db.transaction
 - Phase 01 Plan 02: localDate helper colocated with mutations.ts (not a separate util) — keeps 'never toISOString near local_date' rule visually obvious
 - Phase 01 Plan 02: Runtime guards use Set<unknown> whitelists rather than typed const literals — avoids cast-to-any at call site while keeping O(1) lookup
+- Phase 01 Plan 03: Selected-state fill uses --color-primary (shadcn) not --color-accent — UI-SPEC 'accent' CTA role maps to shadcn primary per app.css banner
+- Phase 01 Plan 03: DateChip uses @internationalized/date (CalendarDate) not JS Date — bits-ui Calendar requires DateValue; parseDate() + today(tz) build value/maxValue
+- Phase 01 Plan 03: TagChipPicker $effect is read-only (listTagsPrefixed + db.tags.anyOf); writes live in user-event handlers only (RESEARCH §Anti-Patterns)
 
 ### Pending Todos
 
@@ -96,8 +100,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-20T11:22:58.285Z
-Stopped at: Completed 01-02 data-layer plan
+Last session: 2026-04-20T12:09:33.790Z
+Stopped at: Completed 01-03 state + widgets plan
 Resume file: None
 
 **Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z
