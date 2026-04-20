@@ -11,12 +11,18 @@ Requirements for initial release. Each maps to roadmap phases.
 
 <!-- The 30-second evening check-in. Friction budget is the whole game. -->
 
-- [ ] **ENT-01**: Daily entry captures mood on 1-5 ordinal scale
-- [ ] **ENT-02**: Daily entry captures energy on 1-5 ordinal scale
-- [ ] **ENT-03**: Daily entry captures workload (light / moderate / heavy)
-- [ ] **ENT-04**: Daily entry captures alone-vs-social split (3-step ordinal)
-- [ ] **ENT-05**: People tags with autocomplete from prior entries (normalised table, not free-text)
-- [ ] **ENT-06**: User can edit or backfill prior entries via date picker, without guilt framing
+- [x] **ENT-01
+**: Daily entry captures mood on 1-5 ordinal scale
+- [x] **ENT-02
+**: Daily entry captures energy on 1-5 ordinal scale
+- [x] **ENT-03
+**: Daily entry captures workload (light / moderate / heavy)
+- [x] **ENT-04
+**: Daily entry captures alone-vs-social split (3-step ordinal)
+- [x] **ENT-05
+**: People tags with autocomplete from prior entries (normalised table, not free-text)
+- [x] **ENT-06
+**: User can edit or backfill prior entries via date picker, without guilt framing
 - [ ] **ENT-07**: Configurable evening notification deep-links directly to the entry form
 - [ ] **ENT-08**: PWA / Add-to-Home-Screen support with `navigator.storage.persist()` called on first open
 
@@ -24,7 +30,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 <!-- Persistence, auth, and export. Offline-first is non-negotiable. -->
 
-- [ ] **DAT-01**: Offline-first local persistence via IndexedDB (Dexie), survives Safari 7-day eviction policy
+- [x] **DAT-01
+**: Offline-first local persistence via IndexedDB (Dexie), survives Safari 7-day eviction policy
 - [ ] **DAT-02**: Single-password auth gate protects data on the public deployment URL
 - [ ] **DAT-03**: CSV export of all entries (structured, analysis-ready)
 - [ ] **DAT-04**: Markdown export — one file per entry (`YYYY-MM-DD.md` with frontmatter for structured fields)

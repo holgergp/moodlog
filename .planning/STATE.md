@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-01 scaffold plan
-last_updated: "2026-04-20T11:02:32.047Z"
+stopped_at: Completed 01-02 data-layer plan
+last_updated: "2026-04-20T11:22:58.291Z"
 last_activity: 2026-04-20
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 5
-  completed_plans: 1
-  percent: 20
+  completed_plans: 2
+  percent: 40
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-20)
 ## Current Position
 
 Phase: 01 (foundation) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 Status: Ready to execute
 Last activity: 2026-04-20
 
-Progress: [██░░░░░░░░] 20%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [██░░░░░░░░] 20%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 72min | 3 tasks | 65 files |
+| Phase 01 P02 | 5min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,9 @@ Recent decisions affecting current work:
 - Tailwind v4 @theme inline indirection: UI-SPEC palette in :root / .dark, shadcn utilities map via @theme inline
 - components.json style = 'nova' (current shadcn-svelte CLI default; rejects 'default')
 - Copy-discipline grep excludes src/lib/components/ui/ (vendored shadcn primitives carry non-user-facing token names)
+- Phase 01 Plan 02: Dexie compound-PK typed as Table<EntryTag, [string, string]> (not EntityTable<_, never>) to satisfy svelte-check on bulkDelete + db.transaction
+- Phase 01 Plan 02: localDate helper colocated with mutations.ts (not a separate util) — keeps 'never toISOString near local_date' rule visually obvious
+- Phase 01 Plan 02: Runtime guards use Set<unknown> whitelists rather than typed const literals — avoids cast-to-any at call site while keeping O(1) lookup
 
 ### Pending Todos
 
@@ -92,8 +96,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-20T11:02:32.040Z
-Stopped at: Completed 01-01 scaffold plan
+Last session: 2026-04-20T11:22:58.285Z
+Stopped at: Completed 01-02 data-layer plan
 Resume file: None
 
 **Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z
