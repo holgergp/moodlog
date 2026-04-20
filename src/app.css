@@ -1,60 +1,146 @@
 @import 'tailwindcss';
 
 /*
- * Tokens: UI-SPEC.md §Color takes precedence. Hex values below are the
- * canonical Phase 1 palette. shadcn-svelte init (Task 2) may append
- * radius/shadow tokens — those are fine, but colour tokens here are
- * authoritative and must not be overwritten.
+ * Tokens: UI-SPEC.md §Color takes precedence; shadcn-svelte defaults below
+ * for radius & shadow only. Hex values below are the canonical Phase 1
+ * palette (stone-50 / slate-900 / stone-200 / slate-100 / stone-500).
+ *
+ * UI-SPEC semantics mapped to shadcn-svelte primitive tokens:
+ *   UI-SPEC "background"  -> --background      (#FAFAF9 light / #0C0A09 dark)
+ *   UI-SPEC "card"        -> --card            (#FFFFFF light / #1C1917 dark)
+ *   UI-SPEC "border"      -> --border          (#E7E5E4 light / #292524 dark)
+ *   UI-SPEC "accent" (CTA)-> --primary         (#0F172A light / #F1F5F9 dark)
+ *   UI-SPEC "muted-fg"    -> --muted-foreground(#78716C — "No one yet")
+ *   UI-SPEC "destructive" -> --destructive     (#B91C1C — reserved, unused P1)
  */
 
-@theme {
-	/* Color — light mode defaults (60/30/10 per UI-SPEC) */
-	--color-background: #FAFAF9;           /* stone-50 — dominant surface */
-	--color-card: #FFFFFF;                 /* white cards on stone */
-	--color-border: #E7E5E4;               /* stone-200 borders */
-	--color-accent: #0F172A;               /* slate-900 — primary CTA, selected state */
-	--color-accent-foreground: #F1F5F9;    /* slate-100 — text on accent */
-	--color-destructive: #B91C1C;          /* red-700 — RESERVED, unused in Phase 1 */
-	--color-muted-foreground: #78716C;     /* stone-500 — "No one yet" helper text */
+@custom-variant dark (&:is(.dark *));
+
+:root {
+	/* Radius */
+	--radius: 0.5rem;
+
+	/* UI-SPEC colour palette — light mode (hex, not HSL, so it stays in-sync
+	 * with the UI-SPEC §Color table without lossy conversion). */
+	--background: #FAFAF9;
+	--foreground: #0F172A;
+	--card: #FFFFFF;
+	--card-foreground: #0F172A;
+	--popover: #FFFFFF;
+	--popover-foreground: #0F172A;
+	--border: #E7E5E4;
+	--input: #E7E5E4;
+	--primary: #0F172A;
+	--primary-foreground: #F1F5F9;
+	--secondary: #FFFFFF;
+	--secondary-foreground: #0F172A;
+	--muted: #F5F5F4;
+	--muted-foreground: #78716C;
+	--accent: #F5F5F4;
+	--accent-foreground: #0F172A;
+	--destructive: #B91C1C;
+	--destructive-foreground: #F1F5F9;
+	--ring: #0F172A;
+}
+
+.dark {
+	--background: #0C0A09;
+	--foreground: #F1F5F9;
+	--card: #1C1917;
+	--card-foreground: #F1F5F9;
+	--popover: #1C1917;
+	--popover-foreground: #F1F5F9;
+	--border: #292524;
+	--input: #292524;
+	--primary: #F1F5F9;
+	--primary-foreground: #0F172A;
+	--secondary: #1C1917;
+	--secondary-foreground: #F1F5F9;
+	--muted: #1C1917;
+	--muted-foreground: #A8A29E;
+	--accent: #1C1917;
+	--accent-foreground: #F1F5F9;
+	--destructive: #B91C1C;
+	--destructive-foreground: #F1F5F9;
+	--ring: #F1F5F9;
+}
+
+@theme inline {
+	/* Radius scale (shadcn-svelte rounded-* utilities) */
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+
+	/* Colour tokens — mapped to the CSS custom props above. Tailwind v4
+	 * generates utilities (bg-background, text-foreground, bg-primary, …)
+	 * from these. */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-ring: var(--ring);
 
 	/* Typography — system font stack only (PITFALLS #12, no CDN fonts) */
 	--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
 
-	/* Type scale — two weights only: 400 regular, 600 semibold */
-	--text-body: 16px;         /* 1.5 line-height, weight 400 */
-	--text-label: 14px;        /* 1.4 line-height, weight 600 */
-	--text-heading: 20px;      /* 1.3 line-height, weight 600 */
-	--text-display: 28px;      /* 1.2 line-height, weight 600 */
+	/* Type scale — two weights only: 400 regular, 600 semibold. Sizes from
+	 * UI-SPEC §Typography (body 16px, label 14px, heading 20px, display 28px). */
+	--text-body: 16px;
+	--text-label: 14px;
+	--text-heading: 20px;
+	--text-display: 28px;
 }
 
-/*
- * Dark-mode overrides. Applied via `.dark` class on <html> (to be toggled by
- * Phase 1 Plan 04 layout shell). Also picked up automatically when the OS is
- * dark if no explicit `.light` class is set.
- */
-.dark {
-	--color-background: #0C0A09;           /* stone-950 */
-	--color-card: #1C1917;                 /* stone-900 */
-	--color-border: #292524;               /* stone-800 */
-	--color-accent: #F1F5F9;               /* slate-100 */
-	--color-accent-foreground: #0F172A;    /* slate-900 */
-}
-
+/* Pitfall #7 / UI-SPEC: reflect OS dark preference when no explicit class.
+ * The Phase 1 scaffold has no theme-toggle yet; this keeps dark users in
+ * dark mode on first paint. */
 @media (prefers-color-scheme: dark) {
 	:root:not(.light) {
-		--color-background: #0C0A09;
-		--color-card: #1C1917;
-		--color-border: #292524;
-		--color-accent: #F1F5F9;
-		--color-accent-foreground: #0F172A;
+		--background: #0C0A09;
+		--foreground: #F1F5F9;
+		--card: #1C1917;
+		--card-foreground: #F1F5F9;
+		--popover: #1C1917;
+		--popover-foreground: #F1F5F9;
+		--border: #292524;
+		--input: #292524;
+		--primary: #F1F5F9;
+		--primary-foreground: #0F172A;
+		--secondary: #1C1917;
+		--secondary-foreground: #F1F5F9;
+		--muted: #1C1917;
+		--muted-foreground: #A8A29E;
+		--accent: #1C1917;
+		--accent-foreground: #F1F5F9;
+		--destructive: #B91C1C;
+		--destructive-foreground: #F1F5F9;
+		--ring: #F1F5F9;
 	}
 }
 
-html {
-	font-family: var(--font-sans);
-}
-
-body {
-	background: var(--color-background);
-	color: var(--color-accent);
+@layer base {
+	* {
+		@apply border-border;
+	}
+	html {
+		font-family: var(--font-sans);
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
 }
