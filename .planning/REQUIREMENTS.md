@@ -85,33 +85,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ENT-01 | TBD | Pending |
-| ENT-02 | TBD | Pending |
-| ENT-03 | TBD | Pending |
-| ENT-04 | TBD | Pending |
-| ENT-05 | TBD | Pending |
-| ENT-06 | TBD | Pending |
-| ENT-07 | TBD | Pending |
-| ENT-08 | TBD | Pending |
-| DAT-01 | TBD | Pending |
-| DAT-02 | TBD | Pending |
-| DAT-03 | TBD | Pending |
-| DAT-04 | TBD | Pending |
-| VUE-01 | TBD | Pending |
-| VUE-02 | TBD | Pending |
-| VUE-03 | TBD | Pending |
-| VUE-04 | TBD | Pending |
-| INS-01 | TBD | Pending |
-| INS-02 | TBD | Pending |
-| INS-03 | TBD | Pending |
-| INS-04 | TBD | Pending |
+| ENT-01 | Phase 1 | Pending |
+| ENT-02 | Phase 1 | Pending |
+| ENT-03 | Phase 1 | Pending |
+| ENT-04 | Phase 1 | Pending |
+| ENT-05 | Phase 1 | Pending |
+| ENT-06 | Phase 1 | Pending |
+| ENT-07 | Phase 1 | Pending |
+| ENT-08 | Phase 1 | Pending |
+| DAT-01 | Phase 1 | Pending |
+| DAT-02 | Phase 2 | Pending |
+| DAT-03 | Phase 2 | Pending |
+| DAT-04 | Phase 2 | Pending |
+| VUE-01 | Phase 3 | Pending |
+| VUE-02 | Phase 3 | Pending |
+| VUE-03 | Phase 3 | Pending |
+| VUE-04 | Phase 3 | Pending |
+| INS-01 | Phase 4 | Pending |
+| INS-02 | Phase 4 | Pending |
+| INS-03 | Phase 4 | Pending |
+| INS-04 | Phase 4 | Pending |
 
 **Coverage:**
 
 - v1 requirements: 20 total
-- Mapped to phases: 0 (populated during roadmap creation)
-- Unmapped: 20 ⚠️
+- Mapped to phases: 20
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-20*
-*Last updated: 2026-04-20 after initial definition*
+*Last updated: 2026-04-20 after roadmap creation*
