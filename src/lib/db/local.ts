@@ -1,5 +1,5 @@
 // `[CITED: context7 /dexie/dexie.js — schema versioning, compound & multi-entry indexes]`
-import Dexie, { type EntityTable } from 'dexie';
+import Dexie, { type EntityTable, type Table } from 'dexie';
 
 export type Entry = {
 	id: string; // crypto.randomUUID()
@@ -36,7 +36,8 @@ export type Settings = {
 export const db = new Dexie('moodlog') as Dexie & {
 	entries: EntityTable<Entry, 'id'>;
 	tags: EntityTable<Tag, 'id'>;
-	entry_tags: EntityTable<EntryTag, never>;
+	// Compound PK: Dexie typings model `[entry_id+tag_id]` as a two-string tuple key.
+	entry_tags: Table<EntryTag, [string, string]>;
 	settings: EntityTable<Settings, 'key'>;
 };
 
