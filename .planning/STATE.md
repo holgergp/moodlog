@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-04-20T08:54:53.775Z"
-last_activity: 2026-04-20 — Roadmap created, phases derived from 20 v1 requirements
+status: executing
+stopped_at: Completed 01-01 scaffold plan
+last_updated: "2026-04-20T11:02:32.047Z"
+last_activity: 2026-04-20
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 5
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 20
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-20)
 
 **Core value:** Surface at least one non-obvious pattern between work/social context and mood/energy that is actually actionable
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 01 — foundation
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-04-20 — Roadmap created, phases derived from 20 v1 requirements
+Phase: 01 (foundation) — EXECUTING
+Plan: 2 of 5
+Status: Ready to execute
+Last activity: 2026-04-20
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01 P01 | 72min | 3 tasks | 65 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,11 @@ Recent decisions affecting current work:
 - All phases: Cross-device sync deferred to v2 — v1 data layer is local-only (IndexedDB via Dexie)
 - Phase 1: Data model decisions locked in Phase 1 — local_date TEXT, 1-5 ordinal scale, normalised tag table, timezone handling
 - Phase 4: Insight callouts gated at N≥30 globally and N≥5 per tag; InsightEngine as pure functions developed in Phase 4
+- Scaffold via sv@0.15.1 create (non-interactive CLI) rather than npm create svelte
+- Pin vite ^7.1.0 + @sveltejs/vite-plugin-svelte ^6.2.4 for vite-plugin-pwa@1.2.0 peer compatibility
+- Tailwind v4 @theme inline indirection: UI-SPEC palette in :root / .dark, shadcn utilities map via @theme inline
+- components.json style = 'nova' (current shadcn-svelte CLI default; rejects 'default')
+- Copy-discipline grep excludes src/lib/components/ui/ (vendored shadcn primitives carry non-user-facing token names)
 
 ### Pending Todos
 
@@ -86,8 +92,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: --stopped-at
-Stopped at: Phase 1 UI-SPEC approved
-Resume file: --resume-file
+Last session: 2026-04-20T11:02:32.040Z
+Stopped at: Completed 01-01 scaffold plan
+Resume file: None
 
 **Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z
