@@ -7,7 +7,7 @@ stopped_at: Completed 01-03 state + widgets plan
 last_updated: "2026-04-20T12:09:43.217Z"
 last_activity: 2026-04-20
 progress:
-  total_phases: 4
+  total_phases: 6
   completed_phases: 0
   total_plans: 5
   completed_plans: 3
@@ -97,6 +97,11 @@ None yet.
 | Insights+ | Energy heatmap variant (INS+01) | v2 | Requirements |
 | Insights+ | Correlation trend over time (INS+02) | v2 | Requirements |
 | Insights+ | Optional note field (INS+03) | v2 | Requirements |
+| Persistence | Export/import JSON (user-triggered backup) | v1.5 backlog | 2026-04-20 Plan 04 discussion |
+| Persistence | Eviction detection (warn when entry count shrinks) | v1.5 backlog | 2026-04-20 Plan 04 discussion |
+| Persistence | Backup nudge toast (every 10 entries) | v1.5 backlog | 2026-04-20 Plan 04 discussion |
+| Deploy | Production deploy (custom domain, Lighthouse CI) | After Phase 1.5 | 2026-04-20 Plan 04 discussion |
+| Onboarding | Production demo mode (/demo with canned data) | Phase 4 boundary | 2026-04-20 Plan 04 discussion |
 
 ## Session Continuity
 

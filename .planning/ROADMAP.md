@@ -19,6 +19,8 @@ non-obvious correlations between work/social context and mood or energy.
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation** - Entry form, local IndexedDB persistence, PWA install, and evening notification — user can log tonight
+- [ ] **Phase 1.5: Deploy preview** (INSERTED 2026-04-20) - Netlify preview deploy to validate PWA install and push notifications on real iOS Safari before Phase 2's domain/auth work
+- [ ] **Phase 1.6: Dev seed data** (INSERTED 2026-04-20) - `?seed=30|60|90` URL parameter gated behind `import.meta.env.DEV` that wipes the local DB and fills realistic synthetic entries — unblocks dogfooding Phase 4 insights before 30 real days elapse
 - [ ] **Phase 2: Security & Export** - Single-password auth gate and CSV/Markdown export — safe to deploy publicly and data is portable
 - [ ] **Phase 3: Views** - Calendar heatmap, weekly review, history list, and insight-threshold progress indicator — data is visible during the 30-day wait
 - [ ] **Phase 4: Insights** - Correlation callouts, scatter views, MNAR warnings, and raw data table — core value delivered after N≥30 entries
@@ -38,9 +40,35 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 1.5: Deploy preview (INSERTED 2026-04-20)
+**Goal**: The Phase 1 foundation is deployed to a throwaway Netlify preview URL so PWA install, notification permission, and `navigator.storage.persist()` can be validated on real iOS Safari before Phase 2's auth work begins
+**Depends on**: Phase 1
+**Requirements**: (none — deployment-only; covers operational risk around ENT-07, ENT-08)
+**Success Criteria** (what must be TRUE):
+  1. `@sveltejs/adapter-auto` is replaced with `@sveltejs/adapter-netlify`; `netlify.toml` commits build + headers (PWA Service-Worker scope, CSP aligned with `src/app.html`)
+  2. A branch-based auto-deploy hook produces a `*.netlify.app` URL on every push to the chosen branch
+  3. The deployed URL serves the PWA over HTTPS; manifest, service worker, and icons resolve with correct MIME types
+  4. On iOS Safari the app can be added to the Home Screen and logs persist across a Safari restart
+  5. `npm run build` and `npm run preview` succeed locally with the Netlify adapter active
+**Plans**: TBD
+**Notes**: Preview-only — no custom domain, no production branch gating, no Lighthouse CI yet (deferred). Locked at this scope 2026-04-20 to avoid expanding deploy scope into Phase 2's auth/export work.
+
+### Phase 1.6: Dev seed data (INSERTED 2026-04-20)
+**Goal**: Developer can generate realistic synthetic entries on demand so Phase 4 insight logic can be exercised without waiting 30 real days of daily logging
+**Depends on**: Phase 1 (data model locked)
+**Requirements**: (none — developer tooling; supports INS-01 dogfooding)
+**Success Criteria** (what must be TRUE):
+  1. Visiting `?seed=30` (or `60`, `90`) in a development build wipes the IndexedDB `entries`, `tags`, `entry_tags` tables and repopulates them with N days of synthetic entries
+  2. Seeded data distribution is realistic: weekday vs weekend rhythm, 3–4 recurring tags with plausible co-occurrence, mood/energy values with some auto-correlation (not uniform random)
+  3. The seed route is gated behind `import.meta.env.DEV` and is unreachable in production builds (verified by a build-time test or runtime guard)
+  4. An `npm run seed` script exists as a CLI alias for the URL-param flow (browser headless or stdout instructions to open the URL)
+  5. Seeded data is indistinguishable from real data at the UI layer (no "this is fake" banner; Phase 4 sees it as normal input)
+**Plans**: TBD
+**Notes**: Dev-only for now. Production "demo mode" with canned non-persistent data is a separate concern, deferred to backlog and reconsidered at Phase 4 boundary.
+
 ### Phase 2: Security & Export
 **Goal**: The app is safe to deploy to a public URL and all logged data can be extracted in analysis-ready formats
-**Depends on**: Phase 1
+**Depends on**: Phase 1.5 (deploy preview proves the production path) and Phase 1
 **Requirements**: DAT-02, DAT-03, DAT-04
 **Success Criteria** (what must be TRUE):
   1. Visiting the public deployment URL presents a password prompt; an incorrect password is rejected and all entry data is inaccessible without the correct password
@@ -74,11 +102,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 1.5 → 1.6 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/5 | In progress | - |
+| 1.5. Deploy preview | 0/TBD | Not started | - |
+| 1.6. Dev seed data | 0/TBD | Not started | - |
 | 2. Security & Export | 0/TBD | Not started | - |
 | 3. Views | 0/TBD | Not started | - |
 | 4. Insights | 0/TBD | Not started | - |
