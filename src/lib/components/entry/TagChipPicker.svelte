@@ -6,11 +6,15 @@
 	- Svelte auto-escapes {tag.display_name} — NEVER use raw-HTML interpolation (T-01-11, XSS)
 	- Input uses text-base (16px) to suppress iOS Safari auto-zoom (Pitfall 3)
 	- No DB writes inside $effect — $effect only reads (RESEARCH §Anti-Patterns)
+	- I18n: placeholder + aria labels come from Paraglide; re-derived on
+	  activeLocale change so the strings flip without a page reload.
 -->
 <script lang="ts">
 	import { listTagsPrefixed } from '$lib/db/queries';
 	import { upsertTag } from '$lib/db/mutations';
 	import { db } from '$lib/db/local';
+	import { activeLocale } from '$lib/state/locale.svelte';
+	import * as m from '$lib/paraglide/messages';
 	import type { Tag } from '$lib/db/local';
 
 	interface Props {
@@ -69,34 +73,49 @@
 		if (!tagIds.includes(tag.id)) tagIds = [...tagIds, tag.id];
 		query = '';
 	}
+
+	// I18n copy — all read `activeLocale.value` so they re-evaluate on
+	// locale change.
+	const emptyHint = $derived((activeLocale.value, m.people_empty()));
+	const placeholderCopy = $derived((activeLocale.value, m.people_add_placeholder()));
+	const selectedAria = $derived((activeLocale.value, m.people_selected_aria()));
+	const inputAria = $derived((activeLocale.value, m.people_input_aria()));
+	const createLabel = $derived.by(() => {
+		activeLocale.value;
+		return m.tagpicker_create_prefix({ name: query.trim() });
+	});
+	function removeAria(name: string): string {
+		void activeLocale.value;
+		return m.people_remove_aria({ name });
+	}
 </script>
 
 <div class="flex flex-col gap-2">
 	{#if selectedTags.length > 0}
-		<div class="flex flex-wrap gap-1" aria-label="Selected people">
+		<div class="flex flex-wrap gap-1" aria-label={selectedAria}>
 			{#each selectedTags as tag (tag.id)}
 				<button
 					type="button"
 					onclick={() => toggleTag(tag)}
 					class="min-h-[32px] rounded-full bg-[var(--color-primary)] text-[var(--color-primary-foreground)] px-3 text-sm font-semibold
 						focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40"
-					aria-label={`Remove ${tag.display_name}`}
+					aria-label={removeAria(tag.display_name)}
 				>
 					{tag.display_name} ×
 				</button>
 			{/each}
 		</div>
 	{:else if allTags.length === 0}
-		<p class="text-sm text-[var(--color-muted-foreground)]">No one yet</p>
+		<p class="text-sm text-[var(--color-muted-foreground)]">{emptyHint}</p>
 	{/if}
 
 	<input
 		type="text"
 		bind:value={query}
-		placeholder="Add a person…"
+		placeholder={placeholderCopy}
 		class="text-base h-11 rounded-md border border-[var(--color-border)] bg-[var(--color-card)] px-3
 			focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40"
-		aria-label="Add a person"
+		aria-label={inputAria}
 	/>
 
 	{#if query.length > 0}
@@ -131,7 +150,7 @@
 							focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40
 							hover:bg-[var(--color-background)]"
 					>
-						+ Create "{query.trim()}"
+						{createLabel}
 					</button>
 				</li>
 			{/if}

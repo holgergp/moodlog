@@ -13,12 +13,18 @@
 	- Future dates are blocked in the DateChip (D-13, two-layer guard in child).
 	- No `+page.server.ts` exists (Pitfall 7 / tier-misassignment guardrail).
 	- Error logs scrub payload (PITFALLS #12 — log err.name only).
+
+	I18n: all user-visible copy comes from Paraglide (`$lib/paraglide/messages`).
+	Derived labels read `activeLocale.value` so Svelte re-evaluates them when
+	the layout reconciles locale on mount (or when a future Settings screen
+	toggles it). See `$lib/state/locale.svelte.ts`.
 -->
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
 	import { draft, hydrateDraftFromEntry } from '$lib/state/draft.svelte';
 	import { useLiveQuery } from '$lib/state/liveEntry.svelte';
+	import { activeLocale } from '$lib/state/locale.svelte';
 	import { db } from '$lib/db/local';
 	import { saveEntry, localDate } from '$lib/db/mutations';
 	import { getEntryTagIds } from '$lib/db/queries';
@@ -27,6 +33,7 @@
 	import SegmentedControl from '$lib/components/entry/SegmentedControl.svelte';
 	import TagChipPicker from '$lib/components/entry/TagChipPicker.svelte';
 	import DateChip from '$lib/components/entry/DateChip.svelte';
+	import * as m from '$lib/paraglide/messages';
 	import type { Entry } from '$lib/db/local';
 
 	// Reactive read of the entry for the current draft date (D-11 edit flow).
@@ -58,33 +65,64 @@
 		})();
 	});
 
-	// CTA label toggles on whether an entry exists for this date (D-11, UI-SPEC Copy).
-	const ctaLabel = $derived(entryForDate.current ? 'Update' : 'Save');
+	// CTA label toggles on whether an entry exists for this date (D-11).
+	const ctaLabel = $derived.by(() => {
+		activeLocale.value; // register locale dep
+		return entryForDate.current ? m.cta_update() : m.cta_save();
+	});
 	const isUpdate = $derived(!!entryForDate.current);
 
-	// Header title — `Tonight` when date is today; full-weekday format for past dates
-	// (UI-SPEC Copy table: e.g. `Tuesday, 16 Apr`).
+	// Header title — `Tonight` / `Heute Abend` when today; full-weekday format
+	// for past dates, localised via Intl.DateTimeFormat passed the active locale.
 	const titleLabel = $derived.by(() => {
-		if (draft.date === localDate()) return 'Tonight';
-		const [y, m, d] = draft.date.split('-').map(Number);
-		const dateObj = new Date(y, m - 1, d);
-		return new Intl.DateTimeFormat(undefined, {
+		const locale = activeLocale.value;
+		if (draft.date === localDate()) return m.header_tonight();
+		const [y, mm, d] = draft.date.split('-').map(Number);
+		const dateObj = new Date(y, mm - 1, d);
+		return new Intl.DateTimeFormat(locale, {
 			weekday: 'long',
 			day: 'numeric',
 			month: 'short'
 		}).format(dateObj);
 	});
 
-	const workloadOptions = [
-		{ value: 'light', label: 'Light' },
-		{ value: 'moderate', label: 'Moderate' },
-		{ value: 'heavy', label: 'Heavy' }
-	];
-	const socialOptions = [
-		{ value: 1, label: 'Mostly alone' },
-		{ value: 2, label: 'Mixed' },
-		{ value: 3, label: 'Mostly with others' }
-	];
+	// Widget option labels — re-derive on locale change so the segmented
+	// controls re-render with translated labels without a page reload.
+	const workloadOptions = $derived.by(() => {
+		activeLocale.value;
+		return [
+			{ value: 'light', label: m.workload_light() },
+			{ value: 'moderate', label: m.workload_moderate() },
+			{ value: 'heavy', label: m.workload_heavy() }
+		];
+	});
+	const socialOptions = $derived.by(() => {
+		activeLocale.value;
+		return [
+			{ value: 1, label: m.social_alone() },
+			{ value: 2, label: m.social_mixed() },
+			{ value: 3, label: m.social_with_others() }
+		];
+	});
+
+	// Static section headings / scale endpoint labels — derived so they
+	// re-evaluate when the active locale changes.
+	const moodHeading = $derived((activeLocale.value, m.section_mood()));
+	const energyHeading = $derived((activeLocale.value, m.section_energy()));
+	const workloadHeading = $derived((activeLocale.value, m.section_workload()));
+	const socialHeading = $derived((activeLocale.value, m.section_social()));
+	const peopleHeading = $derived((activeLocale.value, m.section_people()));
+
+	// Short aria-group labels for the scale widgets (ScaleDotPicker renders
+	// each button as `${label} ${n} of 5`, so we want a concise noun —
+	// "Mood" / "Stimmung" — not the full prompt).
+	const moodWidgetLabel = $derived((activeLocale.value, m.scale_mood_label()));
+	const energyWidgetLabel = $derived((activeLocale.value, m.scale_energy_label()));
+
+	const moodLowLabel = $derived((activeLocale.value, m.scale_mood_low()));
+	const moodHighLabel = $derived((activeLocale.value, m.scale_mood_high()));
+	const energyLowLabel = $derived((activeLocale.value, m.scale_energy_low()));
+	const energyHighLabel = $derived((activeLocale.value, m.scale_energy_high()));
 </script>
 
 <main class="mx-auto flex max-w-md flex-col gap-6 p-6 pb-12">
@@ -109,13 +147,13 @@
 					// D-03 — explicit per-call duration to guarantee 1.5s auto-dismiss
 					// even if svelte-sonner does not cascade <Toaster duration={1500}>
 					// to individual toast() invocations.
-					toast(isUpdate ? 'Updated.' : 'Logged.', { duration: 1500 });
+					toast(isUpdate ? m.toast_updated() : m.toast_logged(), {
+						duration: 1500
+					});
 				} catch (err) {
 					// PITFALLS #12 — do not log payload; log only error.name
 					console.error('saveEntry failed', (err as Error)?.name ?? 'unknown');
-					toast("Couldn't save. Check storage permissions and try again.", {
-						duration: 1500
-					});
+					toast(m.toast_save_error(), { duration: 1500 });
 				}
 				// Do not reset the form — keep values visible for the user to verify
 				// (D-03 "show feedback, don't interrupt flow"; D-11 edit flow stays hydrated).
@@ -134,35 +172,56 @@
 			and would be misleading to screen readers.
 		-->
 		<section class="flex flex-col gap-2">
-			<span class="text-[14px] font-semibold">How was today overall?</span>
-			<ScaleDotPicker bind:value={draft.mood} label="Mood" />
+			<span class="text-[14px] font-semibold">{moodHeading}</span>
+			<ScaleDotPicker bind:value={draft.mood} label={moodWidgetLabel} />
+			<!--
+				Scale endpoint labels: subtle-gray hint pairing, arrow line between.
+				Keeps ScaleDotPicker generic; labels are form-section specific.
+				Colour token only (no hardcoded hex, per design system).
+			-->
+			<div
+				class="mt-1 flex items-center gap-2 text-xs text-[var(--color-muted-foreground)]"
+				aria-hidden="true"
+			>
+				<span>{moodLowLabel}</span>
+				<span class="flex-1 self-center border-t border-[var(--color-border)]"></span>
+				<span>{moodHighLabel}</span>
+			</div>
 		</section>
 
 		<section class="flex flex-col gap-2">
-			<span class="text-[14px] font-semibold">Energy</span>
-			<ScaleDotPicker bind:value={draft.energy} label="Energy" />
+			<span class="text-[14px] font-semibold">{energyHeading}</span>
+			<ScaleDotPicker bind:value={draft.energy} label={energyWidgetLabel} />
+			<div
+				class="mt-1 flex items-center gap-2 text-xs text-[var(--color-muted-foreground)]"
+				aria-hidden="true"
+			>
+				<span>{energyLowLabel}</span>
+				<span class="flex-1 self-center border-t border-[var(--color-border)]"></span>
+				<span>{energyHighLabel}</span>
+			</div>
 		</section>
 
 		<section class="flex flex-col gap-2">
-			<span class="text-[14px] font-semibold">Workload</span>
+			<span class="text-[14px] font-semibold">{workloadHeading}</span>
 			<SegmentedControl
 				bind:value={draft.workload}
 				options={workloadOptions}
-				label="Workload"
+				label={workloadHeading}
 			/>
 		</section>
 
 		<section class="flex flex-col gap-2">
-			<span class="text-[14px] font-semibold">Social</span>
+			<span class="text-[14px] font-semibold">{socialHeading}</span>
 			<SegmentedControl
 				bind:value={draft.socialSplit}
 				options={socialOptions}
-				label="Social"
+				label={socialHeading}
 			/>
 		</section>
 
 		<section class="flex flex-col gap-2">
-			<span class="text-[14px] font-semibold">People</span>
+			<span class="text-[14px] font-semibold">{peopleHeading}</span>
 			<TagChipPicker bind:tagIds={draft.tagIds} />
 		</section>
 

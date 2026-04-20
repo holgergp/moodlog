@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
@@ -7,6 +8,27 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		sveltekit(),
+		// Paraglide emits compile-time, tree-shakable message functions
+		// from `messages/{locale}.json` into `src/lib/paraglide/`. The
+		// generated runtime is re-exported via `src/lib/i18n.ts` and
+		// consumed by components as `import * as m from '$lib/paraglide/messages'`.
+		//
+		// Strategy order: our own localStorage-backed custom strategy is NOT
+		// used — we persist in Dexie and push the resolved locale at runtime
+		// via `setLocale`. The `baseLocale` fallback ensures messages resolve
+		// before the layout has had a chance to push the Dexie-persisted value.
+		paraglideVitePlugin({
+			project: './project.inlang',
+			outdir: './src/lib/paraglide',
+			// `globalVariable` lets us push the resolved locale at runtime via
+			// Paraglide's `setLocale()` without routing or cookies — the value
+			// lives in the Paraglide runtime's module-scoped variable. Our
+			// durable store is Dexie `settings.locale`; the layout reconciles
+			// on mount (persisted wins; otherwise detect + persist).
+			// `baseLocale` is the terminal fallback for the very first render
+			// before setLocale has run.
+			strategy: ['globalVariable', 'baseLocale']
+		}),
 		SvelteKitPWA({
 			strategies: 'injectManifest',
 			srcDir: 'src',

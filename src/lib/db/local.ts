@@ -25,7 +25,8 @@ export type SettingKey =
 	| 'reminder_time' // "HH:MM" default "21:00" (D-19)
 	| 'onboarded' // "true" | "false"
 	| 'install_banner_dismissed_at' // ISO-8601 UTC — D-18 per-session basis, but key persists last dismissal
-	| 'storage_persistent'; // "true" | "false" — result of persist() (PITFALLS #7)
+	| 'storage_persistent' // "true" | "false" — result of persist() (PITFALLS #7)
+	| 'locale'; // "en" | "de" — resolved app locale (auto-detect on first load; user-togglable via future Settings)
 
 export type Settings = {
 	key: SettingKey;
