@@ -42,7 +42,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="min-h-screen bg-[var(--color-background)] text-[var(--color-accent)]">
+<div class="min-h-screen">
 	{@render children()}
 </div>
 <Toaster position="top-center" duration={1500} />
