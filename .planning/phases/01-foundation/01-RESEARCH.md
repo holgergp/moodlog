@@ -718,22 +718,25 @@ Also required for completeness (non-requirement but cross-cutting):
 
 **Note on A3 (EU web push):** Given the user's email domain suggests a German employer, the planner should surface this via a one-line question during `/gsd-discuss-phase` follow-up OR accept the graceful degradation (in-app timer only) as the guaranteed Phase 1 behaviour and treat server push as unconditionally Phase 2.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Is the user's daily phone running iOS 16.4+, and is the user inside the EU?** (See A2, A3.)
    - What we know: Web push on iOS requires 16.4+ installed PWA and is blocked in EU on iOS 17.4+.
    - What's unclear: Device and location unconfirmed.
    - Recommendation: Surface during a quick discuss follow-up OR document D-18's banner copy as the guaranteed-correct fallback for all cases, so Phase 1 succeeds regardless.
+   - **RESOLVED:** Accept graceful degradation. In-app timer scheduler + D-18 Install Banner copy is the guaranteed Phase 1 behavior regardless of iOS version or EU status. Server-side VAPID push deferred to Phase 2+.
 
 2. **Should `pnpm` be installed as a Wave 0 step, or is `npm` acceptable for Phase 1?**
    - What we know: STACK.md recommends pnpm; environment has only npm.
    - What's unclear: User preference.
    - Recommendation: Default to `npm` (lowest friction, works fine), but flag to user: "install pnpm globally if you want to follow STACK.md strictly."
+   - **RESOLVED:** Use npm throughout Phase 1. pnpm install step deferred to an optional later improvement. Lockfile: package-lock.json.
 
 3. **Is it acceptable to use `+page.svelte` SSR with client-only hydration, given there is literally no server data to render?**
    - What we know: SvelteKit SSR renders the empty form shell; client hydrates and shows existing entry.
    - What's unclear: Whether Phase 1 should set `export const ssr = false` on the page or leave default SSR on.
    - Recommendation: Leave SSR on for the app shell (`+layout.svelte` with manifest link, install banner), set `export const ssr = false` on `/+page` so Dexie code (which references `indexedDB`) never runs on the server. This is Claude's Discretion per CONTEXT.md.
+   - **RESOLVED:** ssr=false on /+page (client-only Dexie access); keep layout SSR on for prerender of shell.
 
 ## Code Examples
 
