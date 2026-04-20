@@ -34,8 +34,8 @@ ever producing a real insight, it has failed.
 - [ ] Weekly review screen summarising the past 7 days
 - [ ] Correlation callouts surfacing patterns (e.g. workload vs mood, specific people vs energy)
 - [ ] Raw-data table/chart view I can filter and explore
-- [ ] Data persists across devices (phone primary, desktop secondary)
 - [ ] Single-user only — no sharing, no multi-tenant concerns
+- [ ] Single-password auth gate on public deployment URL
 
 ### Out of Scope
 
@@ -43,6 +43,8 @@ ever producing a real insight, it has failed.
 
 - Multiple user accounts — single-user product, no signup flows or tenant isolation
 - Public signup / sharing — private to me, keep scope and privacy simple
+- Cross-device sync (phone ↔ desktop) — deferred to v2; v1 is phone-first, single-device
+- Passkey / WebAuthn auth — deferred to v2; v1 uses a simple single-password gate
 - Native mobile app — mobile-first web is enough, avoids app-store overhead
 - Sleep / food / exercise tracking — explicitly deprioritised; work & social are the suspected drivers
 - Multiple check-ins per day — one evening entry keeps friction low
@@ -73,7 +75,8 @@ ever producing a real insight, it has failed.
 | Mobile-first web (not native) | Covers both phone logging and desktop review with one codebase; no app-store overhead for a solo project | — Pending |
 | Single evening check-in only | Keeps total daily friction near 30s; multiple check-ins add friction without clear pattern-spotting benefit | — Pending |
 | Track work & social context only (not sleep/food/exercise) | User believes these are the likely drivers; staying narrow keeps entry fast and insights interpretable | — Pending |
-| Single user, no auth | Built for me; auth adds surface area without value | — Pending |
+| Single-password auth gate (not passkey) | v1 is deployed to a public URL; single password is the simplest gate that keeps mood data private without Passkey/WebAuthn complexity | — Pending |
+| Cross-device sync deferred to v2 | v1 is phone-first and single-device; skipping sync removes Turso, auth roaming, and conflict resolution complexity from the MVP | — Pending |
 | Success = 30 days logged + one real insight | Honest bar — pattern-surfacing is the goal, not logging as an end in itself | — Pending |
 
 ## Evolution
