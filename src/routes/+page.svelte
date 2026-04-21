@@ -2,9 +2,14 @@
 	Entry form — Phase 1's single screen.
 	Composes Plan 03 widgets (ScaleDotPicker, SegmentedControl, TagChipPicker,
 	DateChip) over the module-scoped `draft` $state. On submit, calls
-	`saveEntry` via `use:enhance` (RESEARCH §Pattern 1, PITFALLS #7 — no
-	+page.server.ts anywhere). CTA label toggles Save → Update when an
-	entry exists for the selected date (D-11).
+	`saveEntry` via `onsubmit|preventDefault` — pure client-side, no server
+	action. PITFALLS #7 still enforced (no +page.server.ts anywhere);
+	RESEARCH §Pattern 1's use:enhance path does not apply because this app
+	has no server-action endpoints. If a future phase needs progressive
+	enhancement, a server action would need to be added first.
+	CTA label toggles Save → Update when an entry exists for the selected
+	date (D-11) via the existing liveQuery + $effect path (Dexie emits on
+	write, entryForDate.current re-derives).
 
 	Hard rules enforced:
 	- Save is ALWAYS enabled (D-08) — no required-field gate, no submit-blocking state.
@@ -20,7 +25,6 @@
 	toggles it). See `$lib/state/locale.svelte.ts`.
 -->
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
 	import { draft, hydrateDraftFromEntry } from '$lib/state/draft.svelte';
 	import { useLiveQuery } from '$lib/state/liveEntry.svelte';
@@ -132,33 +136,31 @@
 	</header>
 
 	<form
-		method="POST"
-		use:enhance={() => {
-			return async ({ update }) => {
-				try {
-					await saveEntry({
-						local_date: draft.date,
-						mood: draft.mood,
-						energy: draft.energy,
-						workload: draft.workload,
-						social_split: draft.socialSplit,
-						tagIds: draft.tagIds
-					});
-					// D-03 — explicit per-call duration to guarantee 1.5s auto-dismiss
-					// even if svelte-sonner does not cascade <Toaster duration={1500}>
-					// to individual toast() invocations.
-					toast(isUpdate ? m.toast_updated() : m.toast_logged(), {
-						duration: 1500
-					});
-				} catch (err) {
-					// PITFALLS #12 — do not log payload; log only error.name
-					console.error('saveEntry failed', (err as Error)?.name ?? 'unknown');
-					toast(m.toast_save_error(), { duration: 1500 });
-				}
-				// Do not reset the form — keep values visible for the user to verify
-				// (D-03 "show feedback, don't interrupt flow"; D-11 edit flow stays hydrated).
-				await update({ reset: false });
-			};
+		onsubmit={async (e: SubmitEvent) => {
+			e.preventDefault();
+			try {
+				await saveEntry({
+					local_date: draft.date,
+					mood: draft.mood,
+					energy: draft.energy,
+					workload: draft.workload,
+					social_split: draft.socialSplit,
+					tagIds: draft.tagIds
+				});
+				// D-03 — explicit per-call duration to guarantee 1.5s auto-dismiss
+				// even if svelte-sonner does not cascade <Toaster duration={1500}>
+				// to individual toast() invocations.
+				toast(isUpdate ? m.toast_updated() : m.toast_logged(), {
+					duration: 1500
+				});
+			} catch (err) {
+				// PITFALLS #12 — do not log payload; log only error.name
+				console.error('saveEntry failed', (err as Error)?.name ?? 'unknown');
+				toast(m.toast_save_error(), { duration: 1500 });
+			}
+			// No reset, no update(): the liveQuery + reactive $effect in the page
+			// handle CTA flip (Speichern → Aktualisieren) automatically because Dexie
+			// emits the new row and `entryForDate.current` re-derives.
 		}}
 		class="flex flex-col gap-6"
 	>
