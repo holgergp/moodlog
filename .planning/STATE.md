@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03 state + widgets plan
-last_updated: "2026-04-20T12:09:43.217Z"
-last_activity: 2026-04-20
+stopped_at: Completed 01-04 entry form + i18n + verify; ready for Plan 05
+last_updated: "2026-04-21T07:45:00.000Z"
+last_activity: 2026-04-21 — Plan 04 closed, 18/18 verified (15 automated + 2 simulator + 1 pre-existing); 4 fix commits + 1 scope-expansion commit landed during verify
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 5
-  completed_plans: 3
-  percent: 60
+  completed_plans: 4
+  percent: 80
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-20)
 ## Current Position
 
 Phase: 01 (foundation) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5 (next: Plan 05 PWA + notifications)
 Status: Ready to execute
-Last activity: 2026-04-20
+Last activity: 2026-04-21
 
-Progress: [██████░░░░] 60%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [██████░░░░] 60%
 | Phase 01 P01 | 72min | 3 tasks | 65 files |
 | Phase 01 P02 | 5min | 2 tasks | 7 files |
 | Phase 01 P03 | 29min | 2 tasks | 8 files |
+| Phase 01 P04 | ~3h elapsed (cross-session) | 3 tasks + 4 fixes + 1 scope-expansion (i18n) | 16 files |
 
 ## Accumulated Context
 
@@ -77,10 +78,18 @@ Recent decisions affecting current work:
 - Phase 01 Plan 03: Selected-state fill uses --color-primary (shadcn) not --color-accent — UI-SPEC 'accent' CTA role maps to shadcn primary per app.css banner
 - Phase 01 Plan 03: DateChip uses @internationalized/date (CalendarDate) not JS Date — bits-ui Calendar requires DateValue; parseDate() + today(tz) build value/maxValue
 - Phase 01 Plan 03: TagChipPicker $effect is read-only (listTagsPrefixed + db.tags.anyOf); writes live in user-event handlers only (RESEARCH §Anti-Patterns)
+- Phase 01 Plan 04: onsubmit|preventDefault over use:enhance — Pitfall 7 bans +page.server.ts, so use:enhance has no server-action contract to enhance and falls through to 405. Pattern applies everywhere Dexie is the sole persistence layer.
+- Phase 01 Plan 04: Paraglide-JS i18n (EN+DE) with compile-time message bundling via @inlang/paraglide-js (direct package, not @inlang/paraglide-sveltekit — folded into main package). Reactive locale via module-scoped $state signal; $derived wraps m.*() calls.
+- Phase 01 Plan 04: Locale precedence = Dexie settings.locale wins over navigator.language auto-detect on subsequent loads; first-load writes detected value.
+- Phase 01 Plan 04: useLiveQuery subscription lives inside $effect; synchronous queryFn() call at top registers Svelte reactive deps so date-change triggers re-subscription.
+- Phase 01 Plan 04: Scale endpoint labels live in +page.svelte (not in ScaleDotPicker widget) — content-specific to mood/energy, keep widget generic.
+- Phase 01 Plan 04: German banned-word list in copy.test.ts aligned with PITFALLS #11 — großartig/toll (≈great), mies/furchtbar (≈rough), Serie/Streak, Weiter so.
+- Phase 01 Plan 04: Chrome DevTools MCP automated verify caught two Plan-time grep-acceptance criteria as runtime-wrong (use:enhance, contrast wrapper text-accent) — use runtime verification, not just greps, for UX-critical assertions going forward.
 
 ### Pending Todos
 
-None yet.
+- **Logged-day dot on DateChip calendar popover** — deferred to Phase 3 (absorbed into Phase 3 calendar heatmap as success criterion #5). Captured 2026-04-21 during Plan 04 verify.
+- **bits-ui Calendar weekday/month header localization** — currently in default locale when running in DE mode. Phase 1.7 polish candidate, or natural Phase 3 work.
 
 ### Blockers/Concerns
 
@@ -105,8 +114,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-20T12:09:33.790Z
-Stopped at: Completed 01-03 state + widgets plan
+Last session: 2026-04-21
+Stopped at: Plan 01-04 CLOSED (18/18 verified via Chrome DevTools MCP + Xcode iOS Simulator). 4 fix commits landed (e62d225, 2dcd46c, 7bfe5fa, a484fa5) + 2 test commits (9cf1cfd, bfb4b73). Ready for Plan 05.
 Resume file: None
 
 **Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z

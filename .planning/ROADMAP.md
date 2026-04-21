@@ -85,6 +85,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can view a weekly review screen showing the past 7 days with an explicit X/7 logged-days denominator, dominant workload for the week, and the people seen — all described in words, not decimal averages
   3. User can see a scrollable history list of all entries and tap any entry to edit it
   4. User can see a progress indicator toward the 30-entry insight threshold ("N of 30 days logged") whenever they have fewer than 30 entries, with no streak counter or gamification framing
+  5. The DateChip calendar popover (Phase 1 component) renders a muted presence dot under each logged day — a degenerate case of the month-view heatmap, applied inside the entry-form date picker as well as the standalone calendar view. Requested during Plan 04 verify (2026-04-21); deferred here to keep Phase 1 tight. Design: single muted gray dot (no mood color — that's criterion 1), must remain D-14 compliant (presence-only, not "missing day = red").
 **Plans**: TBD
 **UI hint**: yes
 
@@ -106,7 +107,7 @@ Phases execute in numeric order: 1 → 1.5 → 1.6 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 3/5 | In progress | - |
+| 1. Foundation | 4/5 | In progress | - |
 | 1.5. Deploy preview | 0/TBD | Not started | - |
 | 1.6. Dev seed data | 0/TBD | Not started | - |
 | 2. Security & Export | 0/TBD | Not started | - |
