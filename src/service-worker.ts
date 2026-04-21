@@ -18,12 +18,16 @@ import { handleNotificationClick } from '$lib/notifications/handle-click';
 
 declare const self: ServiceWorkerGlobalScope;
 
-// Reserved for @vite-pwa/sveltekit injectManifest — the build step replaces
-// `self.__WB_MANIFEST` with the precache manifest. The reference below is
-// read-only (the SW does not install a precache router in Phase 1 — the
-// app works offline via IndexedDB + static assets cached by the browser
-// HTTP cache). Keeping the reference satisfies the injectManifest marker.
-void self.__WB_MANIFEST;
+// Reserved for @vite-pwa/sveltekit injectManifest — workbox-build replaces
+// the literal string `self.__WB_MANIFEST` with the precache manifest array.
+// Phase 1 does not install a workbox precache router (app works offline via
+// IndexedDB for data + browser HTTP cache for static assets), but the
+// reference must (a) exist in the emitted SW source so workbox-build can
+// find it, and (b) have observable side-effects so Vite does not tree-shake
+// it. Assigning it to a self-scoped property satisfies both — the property
+// is never read, but the assignment is a side-effect Vite preserves.
+(self as unknown as { __moodlog_precache_manifest: unknown }).__moodlog_precache_manifest =
+	self.__WB_MANIFEST;
 
 // ENT-07 / D-21 — route notification clicks to the entry form with today's
 // date pre-selected. The layout's deep-link reader (src/routes/+layout.svelte)

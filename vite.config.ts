@@ -41,13 +41,25 @@ export default defineConfig({
 				background_color: '#FAFAF9',
 				display: 'standalone',
 				start_url: '/',
-				icons: []
-			},
-			injectManifest: {
-				// Phase 1: service-worker.ts doesn't exist yet (Plan 05 creates it).
-				// Point injectManifest at an empty placeholder until then so the
-				// build toolchain doesn't fail during scaffold verification.
-				globPatterns: []
+				icons: [
+					{
+						src: '/manifest-icon-192.png',
+						sizes: '192x192',
+						type: 'image/png',
+						purpose: 'any'
+					},
+					{
+						src: '/manifest-icon-512.png',
+						sizes: '512x512',
+						type: 'image/png',
+						purpose: 'any maskable'
+					},
+					{
+						src: '/apple-touch-icon.png',
+						sizes: '180x180',
+						type: 'image/png'
+					}
+				]
 			}
 		})
 	]
