@@ -23,8 +23,10 @@ Requirements for initial release. Each maps to roadmap phases.
 **: People tags with autocomplete from prior entries (normalised table, not free-text)
 - [x] **ENT-06
 **: User can edit or backfill prior entries via date picker, without guilt framing
-- [ ] **ENT-07**: Configurable evening notification deep-links directly to the entry form
-- [ ] **ENT-08**: PWA / Add-to-Home-Screen support with `navigator.storage.persist()` called on first open
+- [x] **ENT-07
+**: Configurable evening notification deep-links directly to the entry form
+- [x] **ENT-08
+**: PWA / Add-to-Home-Screen support with `navigator.storage.persist()` called on first open
 
 ### Data
 
@@ -98,8 +100,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ENT-04 | Phase 1 | Pending |
 | ENT-05 | Phase 1 | Pending |
 | ENT-06 | Phase 1 | Pending |
-| ENT-07 | Phase 1 | Pending |
-| ENT-08 | Phase 1 | Pending |
+| ENT-07 | Phase 1 | Complete |
+| ENT-08 | Phase 1 | Complete |
 | DAT-01 | Phase 1 | Pending |
 | DAT-02 | Phase 2 | Pending |
 | DAT-03 | Phase 2 | Pending |
@@ -121,4 +123,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-04-20*
-*Last updated: 2026-04-20 after roadmap creation*
+*Last updated: 2026-04-21 — ENT-07 + ENT-08 marked complete (Phase 01 Plan 05 close)*

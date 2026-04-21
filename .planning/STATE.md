@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-04 entry form + i18n + verify; ready for Plan 05
-last_updated: "2026-04-21T07:45:00.000Z"
-last_activity: 2026-04-21 — Plan 04 closed, 18/18 verified (15 automated + 2 simulator + 1 pre-existing); 4 fix commits + 1 scope-expansion commit landed during verify
+stopped_at: Phase 1 plans complete, awaiting phase verification
+last_updated: "2026-04-21T14:30:00.000Z"
+last_activity: 2026-04-21 — Plan 05 closed, 6/8 blocks verified via Chrome DevTools MCP (2 deferred to Phase 1.5 real-device); Phase 1 plans 5/5 complete
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 5
-  completed_plans: 4
-  percent: 80
+  completed_plans: 5
+  percent: 100
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-04-20)
 
 ## Current Position
 
-Phase: 01 (foundation) — EXECUTING
-Plan: 5 of 5 (next: Plan 05 PWA + notifications)
-Status: Ready to execute
+Phase: 01 (foundation) — EXECUTING → awaiting phase verification
+Plan: 5 of 5 complete
+Status: Phase 1 plans complete, awaiting phase verification gate
 Last activity: 2026-04-21
 
-Progress: [████████░░] 80%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [████████░░] 80%
 | Phase 01 P02 | 5min | 2 tasks | 7 files |
 | Phase 01 P03 | 29min | 2 tasks | 8 files |
 | Phase 01 P04 | ~3h elapsed (cross-session) | 3 tasks + 4 fixes + 1 scope-expansion (i18n) | 16 files |
+| Phase 01 P05 | ~40min | 2 tasks + 1 fix (workbox marker) | 19 files (12 created + 7 modified) |
 
 ## Accumulated Context
 
@@ -85,6 +86,13 @@ Recent decisions affecting current work:
 - Phase 01 Plan 04: Scale endpoint labels live in +page.svelte (not in ScaleDotPicker widget) — content-specific to mood/energy, keep widget generic.
 - Phase 01 Plan 04: German banned-word list in copy.test.ts aligned with PITFALLS #11 — großartig/toll (≈great), mies/furchtbar (≈rough), Serie/Streak, Weiter so.
 - Phase 01 Plan 04: Chrome DevTools MCP automated verify caught two Plan-time grep-acceptance criteria as runtime-wrong (use:enhance, contrast wrapper text-accent) — use runtime verification, not just greps, for UX-critical assertions going forward.
+- Phase 01 Plan 05: Workbox __WB_MANIFEST marker preserved via side-effectful assignment `(self as unknown as { __moodlog_precache_manifest: unknown }).__moodlog_precache_manifest = self.__WB_MANIFEST;` — Vite tree-shakes bare expression forms; the assignment gives Vite an observable side effect AND gives workbox-build the literal string to find-and-replace for precache manifest injection.
+- Phase 01 Plan 05: handleNotificationClick extracted to $lib/notifications/handle-click.ts (not embedded in service-worker.ts) — vitest node env cannot resolve webworker lib reference or top-level self.addEventListener; pure helper + thin SW glue is cleaner single-responsibility structure.
+- Phase 01 Plan 05: In-app reminder scheduler via setInterval (not VAPID/push) — honest Phase 1 scope per RESEARCH Pitfall 2. Scheduler fires at most once per local_date, prefers SW registration for notificationclick routing, falls back to new Notification(). If tab is closed at reminder time, user does not get pinged — surfaced in OnboardingSheet + InstallBanner copy as the reason to install.
+- Phase 01 Plan 05: requestPersistence() called silently on every layout onMount (not just onboarding) — D-16. Result stored in settings.storage_persistent so a future Settings/Backup UI can read it without re-calling the API.
+- Phase 01 Plan 05: Permission-denied path still writes reminder_time (not just onboarded=true) — user picked a time; re-enabling browser permission later should not force them back through onboarding. 1200ms dwell before redirect lets denied-copy be read.
+- Phase 01 Plan 05: Platform-adaptive onboarding step-1 copy — one widget picks iOS vs Chrome/Android message key via isIOSSafari(). iOS version explicitly warns about Safari's 7-day eviction; non-iOS omits the warning (Chrome install flow guarantees persistence).
+- Phase 01 Plan 05: Manifest icons are neutral #FAFAF9 placeholders at exact 192/512/180 dimensions — Phase 1 ships on installability, branded artwork deferred as a pre-v1-ship follow-up.
 
 ### Pending Todos
 
@@ -115,7 +123,7 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-04-21
-Stopped at: Plan 01-04 CLOSED (18/18 verified via Chrome DevTools MCP + Xcode iOS Simulator). 4 fix commits landed (e62d225, 2dcd46c, 7bfe5fa, a484fa5) + 2 test commits (9cf1cfd, bfb4b73). Ready for Plan 05.
+Stopped at: Phase 1 plans complete, awaiting phase verification gate. Plan 05 CLOSED (6/8 blocks automated via Chrome DevTools MCP; 2 deferred to Phase 1.5 real-device testing). Plan 05 commits: 51e178c (PWA + notifications + SW tests GREEN) + f9df420 (InstallBanner + OnboardingSheet + layout gate + icons, includes workbox-marker fix). All 9 Nyquist Wave 0 stubs GREEN; npm run test/check/build all clean; dev server on :5173 live.
 Resume file: None
 
 **Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z
