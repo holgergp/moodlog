@@ -28,3 +28,6 @@ vite.config.ts.timestamp-*
 
 # Test output
 coverage/
+
+# Claude Code — machine-local settings (personal allowlist)
+.claude/settings.local.json
