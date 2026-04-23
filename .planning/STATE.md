@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Session resumed, proceeding to execute Phase 1.5 (deploy preview) — Plans 01.5-01 (adapter-netlify swap) and 01.5-02 (Netlify site link + iOS HUMAN-UAT) drafted but not yet executed.
-last_updated: "2026-04-23T06:26:50.303Z"
-last_activity: 2026-04-23 -- Phase 01.5 execution started
+stopped_at: Completed 01.5-01-PLAN.md — adapter-netlify swap + netlify.toml + pushed phase-1.5-deploy-preview to origin
+last_updated: "2026-04-23T06:40:28.317Z"
+last_activity: 2026-04-23
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-20)
 ## Current Position
 
 Phase: 01.5 (deploy-preview-inserted-2026-04-20) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 01.5
-Last activity: 2026-04-23 -- Phase 01.5 execution started
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-23
 
-Progress: [██████████] 100%
+Progress: [█████████░] 86%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [██████████] 100%
 | Phase 01 P03 | 29min | 2 tasks | 8 files |
 | Phase 01 P04 | ~3h elapsed (cross-session) | 3 tasks + 4 fixes + 1 scope-expansion (i18n) | 16 files |
 | Phase 01 P05 | ~40min | 2 tasks + 1 fix (workbox marker) | 19 files (12 created + 7 modified) |
+| Phase 01.5-deploy-preview-inserted-2026-04-20 P01 | 10min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,9 @@ Recent decisions affecting current work:
 - Phase 01 Plan 05: Permission-denied path still writes reminder_time (not just onboarded=true) — user picked a time; re-enabling browser permission later should not force them back through onboarding. 1200ms dwell before redirect lets denied-copy be read.
 - Phase 01 Plan 05: Platform-adaptive onboarding step-1 copy — one widget picks iOS vs Chrome/Android message key via isIOSSafari(). iOS version explicitly warns about Safari's 7-day eviction; non-iOS omits the warning (Chrome install flow guarantees persistence).
 - Phase 01 Plan 05: Manifest icons are neutral #FAFAF9 placeholders at exact 192/512/180 dimensions — Phase 1 ships on installability, branded artwork deferred as a pre-v1-ship follow-up.
+- Phase 01.5 Plan 01: adapter-netlify@^6.0.4 with default options replaces adapter-auto — D-04 locks out edge/split variants
+- Phase 01.5 Plan 01: netlify.toml as single-file deploy contract (NODE_VERSION=22, publish=build, 6 Cache-Control headers D-07..D-10)
+- Phase 01.5 Plan 01: build/index.html absent by design — layout ssr=true causes HTML to be served by adapter-netlify serverless function, not prerendered
 
 ### Pending Todos
 
@@ -122,8 +126,8 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-23
-Stopped at: Session resumed, proceeding to execute Phase 1.5 (deploy preview) — Plans 01.5-01 (adapter-netlify swap) and 01.5-02 (Netlify site link + iOS HUMAN-UAT) drafted but not yet executed.
+Last session: 2026-04-23T06:40:28.310Z
+Stopped at: Completed 01.5-01-PLAN.md — adapter-netlify swap + netlify.toml + pushed phase-1.5-deploy-preview to origin
 Resume file: None
 
 **Planned Phase:** 1.5 () — 0 plans — 2026-04-22T11:38:26.783Z

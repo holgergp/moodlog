@@ -51,7 +51,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. On iOS Safari the app can be added to the Home Screen and logs persist across a Safari restart
   5. `npm run build` and `npm run preview` succeed locally with the Netlify adapter active
 **Plans**: 2 plans
-- [ ] 01.5-01-PLAN.md — Adapter swap + netlify.toml + local build regression (autonomous, Wave 1)
+- [x] 01.5-01-PLAN.md — Adapter swap + netlify.toml + local build regression (autonomous, Wave 1)
 - [ ] 01.5-02-PLAN.md — Netlify site link + preview URL verification + three HUMAN-UAT items (has checkpoints, Wave 2)
 **Notes**: Preview-only — no custom domain, no production branch gating, no Lighthouse CI yet (deferred). Locked at this scope 2026-04-20 to avoid expanding deploy scope into Phase 2's auth/export work.
 
@@ -110,7 +110,7 @@ Phases execute in numeric order: 1 → 1.5 → 1.6 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete ✓ | 2026-04-21 |
-| 1.5. Deploy preview | 0/2 | Not started | - |
+| 1.5. Deploy preview | 1/2 | In progress | - |
 | 1.6. Dev seed data | 0/TBD | Not started | - |
 | 2. Security & Export | 0/TBD | Not started | - |
 | 3. Views | 0/TBD | Not started | - |
