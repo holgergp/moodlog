@@ -24,10 +24,13 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # Web manifest — short cache so manifest edits propagate within an hour (D-09).
+# Content-Type override: Netlify's default MIME for .webmanifest is application/octet-stream;
+# spec wants application/manifest+json. Strict iOS A2HS may reject the default.
 [[headers]]
   for = "/manifest.webmanifest"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+    Content-Type = "application/manifest+json"
 
 # Manifest icons — static asset names, change = rename = cache-bust (D-10).
 [[headers]]
