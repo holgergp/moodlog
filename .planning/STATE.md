@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: "Phase 1 plans complete, awaiting phase verification gate. Plan 05 CLOSED (6/8 blocks automated via Chrome DevTools MCP; 2 deferred to Phase 1.5 real-device testing). Plan 05 commits: 51e178c (PWA + notifications + SW tests GREEN) + f9df420 (InstallBanner + OnboardingSheet + layout gate + icons, includes workbox-marker fix). All 9 Nyquist Wave 0 stubs GREEN; npm run test/check/build all clean; dev server on :5173 live."
-last_updated: "2026-04-22T11:38:26.791Z"
-last_activity: 2026-04-21
+status: executing
+stopped_at: Session resumed, proceeding to execute Phase 1.5 (deploy preview) — Plans 01.5-01 (adapter-netlify swap) and 01.5-02 (Netlify site link + iOS HUMAN-UAT) drafted but not yet executed.
+last_updated: "2026-04-23T06:26:50.303Z"
+last_activity: 2026-04-23 -- Phase 01.5 execution started
 progress:
   total_phases: 6
   completed_phases: 1
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-20)
 
 **Core value:** Surface at least one non-obvious pattern between work/social context and mood/energy that is actually actionable
-**Current focus:** Phase 01 — foundation
+**Current focus:** Phase 01.5 — deploy-preview-inserted-2026-04-20
 
 ## Current Position
 
-Phase: 1.5
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-04-21
+Phase: 01.5 (deploy-preview-inserted-2026-04-20) — EXECUTING
+Plan: 1 of 2
+Status: Executing Phase 01.5
+Last activity: 2026-04-23 -- Phase 01.5 execution started
 
 Progress: [██████████] 100%
 
