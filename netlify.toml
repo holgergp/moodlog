@@ -1,0 +1,46 @@
+# netlify.toml — MoodLog deploy contract
+# Header decisions locked in Phase 1.5 CONTEXT.md (D-07..D-12).
+# CSP stays in src/app.html meta tag (D-11) — do NOT mirror here.
+# No [[redirects]] block: adapter-netlify v6 emits routing in the Function manifest.
+
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Service worker must never be CDN-cached (D-07) — update propagation
+# is the whole point of the browser-side SW registration lifecycle.
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Content-hashed SvelteKit bundles — immutable, cache for a year (D-08).
+[[headers]]
+  for = "/_app/immutable/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Web manifest — short cache so manifest edits propagate within an hour (D-09).
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Manifest icons — static asset names, change = rename = cache-bust (D-10).
+[[headers]]
+  for = "/manifest-icon-192.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/manifest-icon-512.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
