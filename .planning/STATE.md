@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-stopped_at: Phase 1 plans complete, awaiting phase verification
-last_updated: "2026-04-21T14:30:00.000Z"
-last_activity: 2026-04-21 — Plan 05 closed, 6/8 blocks verified via Chrome DevTools MCP (2 deferred to Phase 1.5 real-device); Phase 1 plans 5/5 complete
+status: planning
+stopped_at: "Phase 1 plans complete, awaiting phase verification gate. Plan 05 CLOSED (6/8 blocks automated via Chrome DevTools MCP; 2 deferred to Phase 1.5 real-device testing). Plan 05 commits: 51e178c (PWA + notifications + SW tests GREEN) + f9df420 (InstallBanner + OnboardingSheet + layout gate + icons, includes workbox-marker fix). All 9 Nyquist Wave 0 stubs GREEN; npm run test/check/build all clean; dev server on :5173 live."
+last_updated: "2026-04-22T11:38:26.791Z"
+last_activity: 2026-04-21
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 5
+  total_plans: 7
   completed_plans: 5
-  percent: 17
+  percent: 71
 ---
 
 # Project State
@@ -122,8 +122,8 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-21
-Stopped at: Phase 1 plans complete, awaiting phase verification gate. Plan 05 CLOSED (6/8 blocks automated via Chrome DevTools MCP; 2 deferred to Phase 1.5 real-device testing). Plan 05 commits: 51e178c (PWA + notifications + SW tests GREEN) + f9df420 (InstallBanner + OnboardingSheet + layout gate + icons, includes workbox-marker fix). All 9 Nyquist Wave 0 stubs GREEN; npm run test/check/build all clean; dev server on :5173 live.
+Last session: 2026-04-23
+Stopped at: Session resumed, proceeding to execute Phase 1.5 (deploy preview) — Plans 01.5-01 (adapter-netlify swap) and 01.5-02 (Netlify site link + iOS HUMAN-UAT) drafted but not yet executed.
 Resume file: None
 
-**Planned Phase:** 1 (foundation) — 5 plans — 2026-04-20T08:54:53.768Z
+**Planned Phase:** 1.5 () — 0 plans — 2026-04-22T11:38:26.783Z
