@@ -32,5 +32,19 @@
 	"datechip_today": "Today",
 	"datechip_change_aria": "Change date",
 	"scale_mood_aria": "Mood {n} of 5",
-	"scale_energy_aria": "Energy {n} of 5"
+	"scale_energy_aria": "Energy {n} of 5",
+	"install_banner_text": "Install to Home Screen to enable reminders.",
+	"install_banner_dismiss_aria": "Dismiss",
+	"onboarding_step1_heading": "Add MoodLog to your Home Screen",
+	"onboarding_step1_body_ios": "Reminders and 7-day data protection only work once MoodLog lives on your Home Screen. Follow the steps below in Safari:",
+	"onboarding_step1_ios_step1": "Tap the Share icon at the bottom of Safari",
+	"onboarding_step1_ios_step2": "Choose \"Add to Home Screen\"",
+	"onboarding_step1_ios_step3": "Open MoodLog from the new icon — setup continues there",
+	"onboarding_step1_body_other": "Tap the menu, then \"Install app\". This keeps your entries safe across restarts.",
+	"onboarding_continue": "Continue",
+	"onboarding_skip": "Skip for now",
+	"onboarding_step2_heading": "When should we check in?",
+	"onboarding_step2_body": "We'll send one reminder at this time. You can change it later.",
+	"onboarding_reminder_label": "Reminder time",
+	"onboarding_permission_denied": "Reminders are off. You can enable them in your browser settings."
 }

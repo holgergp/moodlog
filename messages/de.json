@@ -32,5 +32,19 @@
 	"datechip_today": "Heute",
 	"datechip_change_aria": "Datum ändern",
 	"scale_mood_aria": "Stimmung {n} von 5",
-	"scale_energy_aria": "Energie {n} von 5"
+	"scale_energy_aria": "Energie {n} von 5",
+	"install_banner_text": "Füge MoodLog zum Home-Bildschirm hinzu, um Erinnerungen zu aktivieren.",
+	"install_banner_dismiss_aria": "Schließen",
+	"onboarding_step1_heading": "Füge MoodLog zu deinem Home-Bildschirm hinzu",
+	"onboarding_step1_body_ios": "Erinnerungen und der 7-Tage-Schutz deiner Daten funktionieren nur, wenn MoodLog auf deinem Home-Bildschirm liegt. Folge den Schritten unten in Safari:",
+	"onboarding_step1_ios_step1": "Tippe unten in Safari auf das Teilen-Symbol",
+	"onboarding_step1_ios_step2": "Wähle \"Zum Home-Bildschirm\"",
+	"onboarding_step1_ios_step3": "Öffne MoodLog über das neue Icon — die Einrichtung geht dort weiter",
+	"onboarding_step1_body_other": "Tippe auf das Menü, dann auf \"App installieren\". So bleiben deine Einträge auch nach einem Neustart erhalten.",
+	"onboarding_continue": "Weiter",
+	"onboarding_skip": "Später",
+	"onboarding_step2_heading": "Wann sollen wir dich erinnern?",
+	"onboarding_step2_body": "Wir senden eine Erinnerung zu dieser Zeit. Du kannst das später ändern.",
+	"onboarding_reminder_label": "Erinnerungszeit",
+	"onboarding_permission_denied": "Erinnerungen sind aus. Du kannst sie in den Browser-Einstellungen aktivieren."
 }
